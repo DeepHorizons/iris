@@ -29,10 +29,10 @@ class NLPEvaluate(Resource):
     def post():
 
         args = req_parser.parse_args()
-        try:
-            response = iris_parser.evaluate(args['string'])
-        except Exception as e:  # FIXME use a custom exception this is way too broad
-            return {'error': e.args}, 400
+        #try:
+        response = iris_parser.evaluate(args['string'])
+        #except Exception as e:  # FIXME use a custom exception this is way too broad
+        #    return {'error': e.args}, 400
 
         return {'data': response}, 200
 

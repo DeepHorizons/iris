@@ -2,7 +2,7 @@
 Sample plugins
 """
 
-from iris.plugins import IrisPlugin
+from iris.plugins import Plugin
 
 
 def weather(*args, **kwargs):
@@ -17,7 +17,7 @@ def temp(*args, **kwargs):
     return {'text': "The temperature is 79 degrees"}
 
 
-class Sample1Plugin(IrisPlugin):
+class Sample1Plugin(Plugin):
     """
     Implement the grammar on the class
     """
@@ -26,7 +26,7 @@ class Sample1Plugin(IrisPlugin):
     }
 
 
-class Sample2Plugin(IrisPlugin):
+class Sample2Plugin(Plugin):
     """
     Init the grammar on the init of the class
     """
@@ -42,7 +42,7 @@ class Sample2Plugin(IrisPlugin):
         return self._grammar
 
 
-class Sample3Plugin(IrisPlugin):
+class Sample3Plugin(Plugin):
     """
     Define a property that returns the grammar
     """
@@ -53,4 +53,4 @@ class Sample3Plugin(IrisPlugin):
         }
 
 if __name__ == '__main__':
-    [i() for i in IrisPlugin.__subclasses__()]
+    [i() for i in Plugin.__subclasses__()]
