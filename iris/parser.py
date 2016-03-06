@@ -15,6 +15,12 @@ def evaluate(string):
     """
 
     grammars = iris.plugins.loader.get_all_grammars()
+    new_grammars = {}
+    for grammar in grammars:
+        new_grammars.update(expand_grammar(grammar, grammars[grammar]))
+
+    grammars = new_grammars
+    print(grammars)
 
     passed = []
     for grammar in grammars:
@@ -100,7 +106,7 @@ def expand_grammar(grammar, grammar_func):
                     '''
                 opts = [i.strip() for i in splice.split('|')]
                 for j in opts:
-                    new_lst.append(elm[:l] + ' ' + j + ' ' + elm[r+1:])
+                    new_lst.append(elm[:l].strip() + ' ' + j.strip() + ' ' + elm[r+1:].strip())
             else:
                 new_lst.append(elm)
         lst = new_lst
