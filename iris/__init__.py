@@ -25,16 +25,14 @@ req_parser.add_argument('string', type=str, help="Natural language string to par
 
 class NLPEvaluate(Resource):
 
-    def post(self):
+    @staticmethod
+    def post():
 
-        args = parser.parse_args()
-
+        args = req_parser.parse_args()
         try:
             response = iris_parser.evaluate(args['string'])
         except Exception as e:  # FIXME use a custom exception this is way too broad
-            return {
-                'error': e.args
-            }, 400
+            return {'error': e.args}, 400
 
         return {'data': response}, 200
 
