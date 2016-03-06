@@ -22,7 +22,7 @@ class IrisPlugin(metaclass=ABCMeta):
     @property
     def grammar(self):
         """
-        Dont use the ABC on this as the plugin can implement the grammer in differetn ways
+        Dont use the ABC on this as the plugin can implement the grammar in different ways
         see sample plugins
         """
         raise NotImplementedError("The grammar was not implemented")
