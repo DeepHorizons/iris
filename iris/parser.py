@@ -6,7 +6,7 @@ import iris.plugins.loader
 import nltk
 
 
-def evaulate(string):
+def evaluate(string):
     """
     Given a string, return a response dict or raise an error
 
@@ -21,7 +21,7 @@ def evaulate(string):
         wer = error_rate(string, grammar)
 
         if wer <= 5:
-            passed += (wer, grammar, grammars[grammar])
+            passed.append((wer, grammar, grammars[grammar]))
     if not passed:
         raise Exception("No matching grammar found")
     chosen_grammar = choose(passed)
@@ -38,8 +38,8 @@ def choose(lst):
     """
     m = ("", None)
     for i in lst:
-        if len(i[1]) > len(m):
-            m = (len(i[1]), i[2])  # drop the WER
+        if len(i[1]) > len(m[0]):
+            m = (i[1], i[2])  # drop the WER
     return m
 
 

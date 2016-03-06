@@ -16,7 +16,7 @@ def _load_plugins():
 
 
 def _get_all_plugins():
-    return IrisPlugin.__subclasses__()
+    return Plugin.__subclasses__()
 
 
 def _get_plugin_grammar(p):
