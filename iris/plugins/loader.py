@@ -10,7 +10,8 @@ def _load_plugins():
     """
     # import all plugins
     # use an envvar to locate the folder?
-    [importlib.import_module(i) for i in (d for d in os.listdir(os.curdir) if os.path.isdir(d))]
+    file_path = os.path.dirname(__file__)
+    [importlib.import_module('iris.plugins.' + i) for i in (d for d in os.listdir(file_path) if os.path.isdir(file_path + '/' + d))]
     pass
 
 
