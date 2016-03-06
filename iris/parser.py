@@ -8,7 +8,7 @@ import nltk
 
 def evaulate(string):
     """
-    Given a string, return a response or None
+    Given a string, return a response dict or raise an error
 
     :param string:
     :return:
@@ -68,9 +68,47 @@ def get_positions(string, grammar):
 
 
 def expand_grammar(grammar, grammar_func):
+
     lst = [grammar]
-    while '[' in lst[0]:
+    while any('[' in i for i in lst):
+        new_lst = []
         for elm in lst:
-            l = elm.find('[')
-            r = elm.find(']', l+1)
-            splice = 0  # needed to commit
+            if '[' in elm:
+                l = elm.find('[')
+
+                # ignore nested brackets
+                if elm.find('[', l+1) < elm.find(']', l+1) and elm.find('[', l+1) != -1:
+                    tmp_l = elm.find('[', l+1)
+                    while elm.find('[', tmp_l+1) < elm.find(']', l+1):
+                        if elm.find('[', tmp_l+1) == -1:
+                            tmp_l = elm.find(']', tmp_l+1)  # We have found the last '[', find the matching ']'
+                            break
+                        else:
+                            tmp_l = elm.find('[', tmp_l+1)
+                    r = elm.find(']', tmp_l+1) # find the one we want
+                else:
+                    r = elm.find(']', l+1)
+                #r = elm.find(']', l+1)
+                splice = elm[l+1:r]
+                if '[' in splice:
+                    opts = [i.strip() for i in splice[:splice.find('[')].split('|')] + \
+                           [splice[splice.find('['): splice.rfind(']') + 1]] + \
+                           [i.strip() for i in splice[ splice.find('|', splice.rfind(']') + 1) + 1:].split('|')]
+                    opts = [i for i in opts if i]
+                else:
+                    opts = [i.strip() for i in splice.split('|')]
+                for j in opts:
+                    new_lst.append(elm[:l] + ' ' + j + ' ' + elm[r+1:])
+            else:
+                new_lst.append(elm)
+        lst = new_lst
+    dic = {}
+    for i in lst:
+        dic[i] = grammar_func
+
+    return dic
+
+
+#a = "hmm... [ what's | what is | whats ] the weather in rochester"
+#expand_grammar(a, str)
+
