@@ -5,7 +5,7 @@
 from abc import ABCMeta, abstractmethod, abstractproperty
 
 
-class IrisPlugin(metaclass=ABCMeta):
+class Plugin(metaclass=ABCMeta):
     """
     A dummy class to specify that the sub classes are plugins
 

@@ -1,10 +1,8 @@
 """
 
 """
-from iris.plugins import IrisPlugin
+from iris.plugins import Plugin
 
 
-class IrisWeather(IrisPlugin):
-    grammar = {
-        "Whats the weather": str,  # Static methods store the function under __func__
-    }
+class IrisWeather(Plugin):
+    pass

@@ -6,7 +6,7 @@ import iris.plugins.loader
 import nltk
 
 
-def evaulate(string):
+def evaluate(string):
     """
     Given a string, return a response or None
 
