@@ -88,15 +88,17 @@ def expand_grammar(grammar, grammar_func):
                     r = elm.find(']', tmp_l+1) # find the one we want
                 else:
                     r = elm.find(']', l+1)
-                #r = elm.find(']', l+1)
                 splice = elm[l+1:r]
+                ''' No nested  brackets
                 if '[' in splice:
-                    opts = [i.strip() for i in splice[:splice.find('[')].split('|')] + \
+                    opts = [i.strip() for i in splice[:splice.rfind('|', splice.find('['))].split('|')] + \
                            [splice[splice.find('['): splice.rfind(']') + 1]] + \
-                           [i.strip() for i in splice[ splice.find('|', splice.rfind(']') + 1) + 1:].split('|')]
+                           [i.strip() for i in splice[splice.find('|', splice.rfind(']') + 1) + 1:].split('|')]
                     opts = [i for i in opts if i]
                 else:
                     opts = [i.strip() for i in splice.split('|')]
+                    '''
+                opts = [i.strip() for i in splice.split('|')]
                 for j in opts:
                     new_lst.append(elm[:l] + ' ' + j + ' ' + elm[r+1:])
             else:
@@ -107,8 +109,3 @@ def expand_grammar(grammar, grammar_func):
         dic[i] = grammar_func
 
     return dic
-
-
-#a = "hmm... [ what's | what is | whats ] the weather in rochester"
-#expand_grammar(a, str)
-
