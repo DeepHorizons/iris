@@ -1,8 +1,8 @@
 """
 
 """
-from iris.Plugins import IrisPlugin
+from iris.plugins import Plugin
 
 
-class IrisWeather(IrisPlugin):
+class IrisWeather(Plugin):
     pass
