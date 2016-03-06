@@ -11,6 +11,7 @@ Built at BrickHack II
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
 
+import iris.parser as iris_parser
 
 # initialize
 app = Flask(__name__)
@@ -18,8 +19,8 @@ api = Api(app)
 
 
 # === API Layer
-parser = reqparse.RequestParser()
-parser.add_argument('string', type=str, help="Natural language string to parse")
+req_parser = reqparse.RequestParser()
+req_parser.add_argument('string', type=str, help="Natural language string to parse")
 
 
 class NLPEvaluate(Resource):
@@ -28,10 +29,14 @@ class NLPEvaluate(Resource):
 
         args = parser.parse_args()
 
+        try:
+            response = iris_parser.evaluate(args['string'])
+        except Exception as e:  # FIXME use a custom exception this is way too broad
+            return {
+                'error': e.args
+            }, 400
 
-
-
-        return {'data': 'fooBar'}, 200
+        return {'data': response}, 200
 
 
 # === build API endpoints
