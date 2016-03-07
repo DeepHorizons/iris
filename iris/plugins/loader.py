@@ -1,5 +1,6 @@
 import importlib
 import os
+import sys
 from iris.plugins import *
 
 
@@ -12,9 +13,14 @@ def _load_plugins():
     # use an envvar to locate the folder?
     file_path = os.path.dirname(__file__)
     import iris.plugins
-    libs = [d for d in os.listdir(file_path) if os.path.isdir(file_path + '/' + d)]
-    #print(libs)
-    [importlib.import_module('iris.plugins.' + i) for i in libs]
+
+    # Reload already loaded plugins
+    plugins = Plugin.__subclasses__()
+    reloaded_plugins = [importlib.reload(sys.modules[i.__module__]) for i in plugins]
+
+    # Import any new ones if they were not reloaded
+    libs = ['iris.plugins.' + d for d in os.listdir(file_path) if os.path.isdir(file_path + '/' + d)]
+    imported_plugins = [importlib.import_module(i) for i in libs if i not in [d.__name__ for d in reloaded_plugins]]
     pass
 
 
